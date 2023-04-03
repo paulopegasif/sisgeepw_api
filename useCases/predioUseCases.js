@@ -15,9 +15,9 @@ const getPrediosDB = async () => {
 const addPredioDB = async (body) => {
     try {
         const {nome, descricao, sigla} = body;
-        const result = await pool.query(`INSERT INTO predios (nome, descicao, sigla)
+        const result = await pool.query(`INSERT INTO predios (nome, descricao, sigla)
                                         values ($1, $2, $3)
-                                        RETURNING codigo, nome, descicao, sigla`,
+                                        RETURNING codigo, nome, descricao, sigla`,
                                         [nome, descricao, sigla]);
         const predio = results.rows[0];
         return new Predio(predio.codigo, predio.nome, predio.descricao, predio.sigla);
@@ -31,7 +31,7 @@ const updatePredioDB = async (body) => {
         const {nome, descricao, sigla, codigo} = body;
         const result = await pool.query(`UPDATE predios SET nome=$1, descricao=$2, sigla=$3
                                         WHERE codigo=$4
-                                        RETURNING codigo, nome, descicao, sigla`,
+                                        RETURNING codigo, nome, descricao, sigla`,
                                         [nome, descricao, sigla, codigo]);
 
         if(results.rowCount == 0){
