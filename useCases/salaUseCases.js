@@ -6,7 +6,7 @@ const getSalasDB = async () => {
         const { rows } = await
          pool.query('SELECT * FROM salas ORDER BY codigo');
         return rows.map((sala) => new Sala(sala.codigo, sala.numero,
-             sala.descricao, sala.predio));
+             sala.descricao, sala.capacidade));
     } catch(err){
         throw "Erro: " + err;
     }
@@ -15,8 +15,8 @@ const getSalasDB = async () => {
 const addSalaDB = async (body) => {
     try {
         const {codigo, numero, descricao, capacidade, predio} = body;
-        const result = await pool.query(`INSERT INTO salas (numero, descricao, capacidade, predio)
-                                        values ($1, $2, $3, $4)
+        const result = await pool.query(`INSERT INTO salas (codigo, numero, descricao, capacidade, predio)
+                                        values ($1, $2, $3, $4, $5)
                                         RETURNING codigo, numero, descricao, capacidade, predio`,
                                         [codigo, numero, descricao, capacidade, predio]);
         const sala = results.rows[0];
